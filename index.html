@@ -102,32 +102,10 @@
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s;
-            position: relative;
         }
         .task-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 0 10px #00a2ff;
-        }
-        #btnAd {
-            background: linear-gradient(45deg, #ff9500, #ffcc00);
-            animation: pulse 2s infinite;
-        }
-        #btnAd small {
-            display: block;
-            font-size: 0.7em;
-            opacity: 0.8;
-        }
-        #btnAd::after {
-            content: "NUEVO";
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #ff3b30;
-            color: white;
-            font-size: 0.6em;
-            padding: 2px 6px;
-            border-radius: 8px;
-            transform: rotate(15deg);
         }
         #btn-download {
             display: none;
@@ -140,17 +118,9 @@
             display: none;
             margin-top: 10px;
         }
-        .legal-text {
-            font-size: 0.6em;
-            opacity: 0.7;
-            margin-top: 30px;
-            border-top: 1px solid #444;
-            padding-top: 10px;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .support-btn {
+            background: linear-gradient(45deg, #25d366, #128C7E);
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -182,17 +152,12 @@
             <button class="task-btn" id="btnSubscribe">Suscríbete a Mi Canal</button>
             <p class="warning" id="warningSubscribe">¡No te has suscrito aún!</p>
             
-            <button class="task-btn" id="btnAd">
-                <span>🎁 Ver Anuncio (+15%)</span>
-                <small>Apoya al creador</small>
-            </button>
-            <p class="warning" id="warningAd">¡Debes esperar 10 segundos en el sitio!</p>
-            
             <button class="task-btn" id="btn-download">Get Script</button>
             
-            <div class="legal-text">
-                <p>Este sitio contiene enlaces patrocinados. Al interactuar apoyas al creador.</p>
-            </div>
+            <!-- Botón opcional de apoyo -->
+            <button class="task-btn support-btn" onclick="window.open('https://paypal.me/WeroScripts')">
+                Apoya mi trabajo (Opcional, PayPal)
+            </button>
         </div>
     </div>
 
@@ -201,18 +166,12 @@
         const state = {
             progress: 0,
             tasks: {
-                like: { completed: false, value: 25 },
-                comment: { completed: false, value: 25 },
-                subscribe: { completed: false, value: 25 },
-                ad: { completed: false, value: 25 }
+                like: { completed: false, value: 33.34 },
+                comment: { completed: false, value: 33.33 },
+                subscribe: { completed: false, value: 33.33 }
             },
             currentTask: null,
-            startTime: null,
-            adNetworks: [
-                "https://www.propellerads.com/?rfd=TU_ID",
-                "https://www.cpagrip.com/signup.php?ref=TU_ID",
-                "https://adsterra.com/?ref=TU_ID"
-            ]
+            startTime: null
         };
 
         // Elementos del DOM
@@ -245,7 +204,7 @@
             window.onfocus = () => {
                 if (state.startTime && state.currentTask) {
                     const timeSpent = (new Date().getTime() - state.startTime) / 1000;
-                    const minTime = state.currentTask === 'ad' ? 10 : 5;
+                    const minTime = 5; // 5 segundos para todas las tareas
 
                     if (timeSpent >= minTime) {
                         completeTask(state.currentTask);
@@ -259,24 +218,17 @@
             // Botones de tareas
             document.getElementById('btnLike').addEventListener('click', () => {
                 state.currentTask = 'like';
-                window.open('https://youtube.com/tu_video_a_likear', '_blank');
+                window.open('https://www.youtube.com/watch?v=sU7qXquxh1Q', '_blank');
             });
 
             document.getElementById('btnComment').addEventListener('click', () => {
                 state.currentTask = 'comment';
-                window.open('https://youtube.com/tu_video_a_comentar', '_blank');
+                window.open('https://www.youtube.com/watch?v=sU7qXquxh1Q', '_blank');
             });
 
             document.getElementById('btnSubscribe').addEventListener('click', () => {
                 state.currentTask = 'subscribe';
-                window.open('https://youtube.com/tu_canal?sub_confirmation=1', '_blank');
-            });
-
-            // Botón de anuncio
-            document.getElementById('btnAd').addEventListener('click', () => {
-                state.currentTask = 'ad';
-                const randomAd = state.adNetworks[Math.floor(Math.random() * state.adNetworks.length)];
-                window.open(randomAd, '_blank');
+                window.open('https://www.youtube.com/@WeroScripts', '_blank');
             });
 
             // Botón de descarga
@@ -316,11 +268,10 @@
             const texts = {
                 like: 'Like',
                 comment: 'Comentario',
-                subscribe: 'Suscripción',
-                ad: 'Anuncio'
+                subscribe: 'Suscripción'
             };
             
-            btn.innerHTML = `✔ ${texts[task]} Completado${task === 'ad' ? '<small>¡Gracias!</small>' : ''}`;
+            btn.textContent = `✔ ${texts[task]} Completado`;
             btn.style.background = 'linear-gradient(45deg, #00ff88, #00a2ff)';
             btn.disabled = true;
         }

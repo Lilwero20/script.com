@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeroScripts - Consigue Los Mejores Scripts para Tus Juegos De Roblox</title>
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Contenedor principal */
+        .container {
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            max-width: 900px;
+            margin: 50px auto;
+        }
+
+        /* Título */
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00a2ff;
+        }
+
+        /* Video de YouTube */
+        .video-container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 450px;
+            border: 3px solid #00a2ff;
+            border-radius: 10px;
+        }
+
+        /* Botón principal */
+        .btn-unlock {
+            background: linear-gradient(45deg, #00a2ff, #0062ff);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px #00a2ff;
+        }
+
+        .btn-unlock:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #00a2ff;
+        }
+
+        /* Modal (panel de desbloqueo) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 500px;
+            border: 2px solid #00a2ff;
+            box-shadow: 0 0 20px #00a2ff;
+        }
+
+        .modal h2 {
+            color: #00a2ff;
+            margin-top: 0;
+        }
+
+        /* Barra de progreso */
+        .progress-container {
+            width: 100%;
+            background-color: #333;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: linear-gradient(90deg, #0062ff, #00a2ff);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        /* Botones de tareas */
+        .task-btn {
+            background: linear-gradient(45deg, #0062ff, #00a2ff);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .task-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px #00a2ff;
+        }
+
+        /* Botón desbloqueado (oculto inicialmente) */
+        #btn-download {
+            display: none;
+            background: linear-gradient(45deg, #00ff88, #00a2ff);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WeroScripts - Consigue Los Mejores Scripts para Tus Juegos De Roblox</h1>
+        
+        <!-- Video de YouTube (reemplaza el ID con el de tu video) -->
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/TU_ID_DE_VIDEO" frameborder="0" allowfullscreen></iframe>
+        </div>
+        
+        <!-- Botón para abrir el modal -->
+        <button class="btn-unlock" id="btnUnlock">Desbloquear Script del Video</button>
+    </div>
+
+    <!-- Modal (panel de desbloqueo) -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Desbloquea El Script Del Video</h2>
+            
+            <!-- Barra de progreso -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <!-- Botones de tareas -->
+            <button class="task-btn" id="btnLike">Deja Un Like En El Video</button>
+            <button class="task-btn" id="btnComment">Deja Un Comentario En El Video</button>
+            <button class="task-btn" id="btnSubscribe">Suscríbete a Mi Canal</button>
+            
+            <!-- Botón de descarga (inicialmente oculto) -->
+            <button class="task-btn" id="btn-download">¡Descargar Script!</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables de progreso
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const btnDownload = document.getElementById('btn-download');
+        
+        // Abrir modal
+        document.getElementById('btnUnlock').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'flex';
+        });
+        
+        // Botones de tareas (simuladas)
+        document.getElementById('btnLike').addEventListener('click', function() {
+            progress += 33;
+            updateProgress();
+            this.textContent = '✔ Like Completado';
+            this.style.background = 'linear-gradient(45deg, #00ff88, #00a2ff)';
+            this.disabled = true;
+        });
+        
+        document.getElementById('btnComment').addEventListener('click', function() {
+            progress += 33;
+            updateProgress();
+            this.textContent = '✔ Comentario Completado';
+            this.style.background = 'linear-gradient(45deg, #00ff88, #00a2ff)';
+            this.disabled = true;
+        });
+        
+        document.getElementById('btnSubscribe').addEventListener('click', function() {
+            progress += 34; // Para asegurar 100%
+            updateProgress();
+            this.textContent = '✔ Suscripción Completada';
+            this.style.background = 'linear-gradient(45deg, #00ff88, #00a2ff)';
+            this.disabled = true;
+        });
+        
+        // Actualizar barra de progreso
+        function updateProgress() {
+            progressBar.style.width = progress + '%';
+            if (progress >= 100) {
+                btnDownload.style.display = 'inline-block';
+            }
+        }
+        
+        // Redirecciones (reemplaza con tus links)
+        document.getElementById('btnLike').addEventListener('click', function() {
+            window.open('https://youtube.com/tu_video_a_likear', '_blank');
+        });
+        
+        document.getElementById('btnComment').addEventListener('click', function() {
+            window.open('https://youtube.com/tu_video_a_comentar', '_blank');
+        });
+        
+        document.getElementById('btnSubscribe').addEventListener('click', function() {
+            window.open('https://youtube.com/tu_canal?sub_confirmation=1', '_blank');
+        });
+        
+        // Botón de descarga final
+        document.getElementById('btn-download').addEventListener('click', function() {
+            window.location.href = 'https://link_a_tu_script_descargable'; // Reemplaza con tu link
+        });
+    </script>
+</body>
+</html>
